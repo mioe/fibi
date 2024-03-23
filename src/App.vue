@@ -7,7 +7,7 @@ const isLoading = ref(true)
 onMounted(async() => {
 	await getCurrentUser()
 	isLoading.value = false
-	console.log('🦕 secret:', import.meta.env.VITE_SECRET)
+	console.log('🦕 secret:', import.meta.env.VITE_APP_SECRET)
 })
 </script>
 
