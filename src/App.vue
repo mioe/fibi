@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { getCurrentUser } from 'vuefire'
 const authStore = useAuthStore()
-const { handleSignOut } = authStore
+const { handleSignOut: authSignOut } = authStore
 const isLoading = ref(true)
+const router = useRouter()
+
+async function handleSignOut() {
+	await authSignOut()
+	router.push({ name: 'sign-in' })
+}
 
 onMounted(async() => {
 	await getCurrentUser()

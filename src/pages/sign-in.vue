@@ -1,8 +1,14 @@
 <script setup lang="ts">
+const route = useRoute()
 const authStore = useAuthStore()
 const { handleSignInPopup } = authStore
 
 const isLoading = ref(false)
+const redirect = computed(() =>
+	route.query.redirect
+		? `${route.query.redirect}`
+		: '/',
+)
 
 async function handleSignIn() {
 	isLoading.value = true
@@ -24,7 +30,18 @@ async function handleSignIn() {
 			</button>
 		</template>
 		<template v-else>
-			<p>{{ $t('hello', { name: authStore.currentUser.displayName }) }}!</p>
+			<div class="flex flex-col items-center justify-center gap-2">
+				<p>{{ $t('hello', { name: authStore.currentUser.displayName }) }}!</p>
+				<code v-if="authStore.authMetadata">
+					{{ authStore.authMetadata }}
+				</code>
+				<RouterLink
+					v-if="route.query.redirect"
+					:to="redirect"
+				>
+					{{ $t('auth.goto') }} {{ route.query.redirect }}
+				</RouterLink>
+			</div>
 		</template>
 	</section>
 </template>

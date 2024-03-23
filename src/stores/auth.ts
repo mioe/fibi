@@ -3,11 +3,14 @@ import {
 	signOut,
 	GoogleAuthProvider,
 } from 'firebase/auth'
+import { doc, collection } from 'firebase/firestore'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import {
 	useCurrentUser,
 	useFirebaseAuth,
+	useDocument,
+	useFirestore,
 } from 'vuefire'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -17,13 +20,21 @@ export const useAuthStore = defineStore('auth', () => {
 	const user = useCurrentUser()
 	const isAdm = computed(() => user?.value?.uid === import.meta.env.VITE_ADM_UUID)
 
-	const error = ref(null)
+	const db = useFirestore()
+	const {
+		data,
+		pending,
+		error,
+	} = useDocument(() =>
+		user.value
+			? doc(collection(db, 'user'), user.value?.uid)
+			: null,
+	)
 
 	async function handleSignInPopup() {
 		await signInWithPopup(auth, googleAuthProvider)
 			.catch((reason) => {
 				console.error('🦕 Failed signInWithPopup', reason)
-				error.value = reason
 			})
 	}
 
@@ -33,6 +44,8 @@ export const useAuthStore = defineStore('auth', () => {
 
 	return {
 		currentUser: user,
+		authMetadata: data,
+		authPending: pending,
 		authError: error,
 		isAdm,
 

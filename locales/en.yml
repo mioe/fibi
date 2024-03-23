@@ -2,3 +2,4 @@ hello: 'Hello, {name}'
 auth:
   sign-in: 'Sign in'
   sign-out: 'Sign out'
+  goto: 'Goto'
