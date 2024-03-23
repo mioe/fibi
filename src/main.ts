@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { VueFire, VueFireAuth } from 'vuefire'
 import App from './App.vue'
 
 /**
@@ -10,6 +11,7 @@ import './style.css'
 /**
  * Modules
  */
+import { firebaseApp } from './firebase'
 import { pinia } from './modules/pinia'
 import { head } from './modules/unhead'
 import { i18n, loadLanguageAsync, getDefaultLocale } from './modules/vue-i18n'
@@ -22,6 +24,12 @@ createApp(App)
 	.use(i18n)
 	.use(head)
 	.use(pinia)
+	.use(VueFire, {
+		firebaseApp,
+		modules: [
+			VueFireAuth(),
+		],
+	})
 	.use(router)
 	.mount('#app')
 

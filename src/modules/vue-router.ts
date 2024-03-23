@@ -1,12 +1,13 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { getCurrentUser } from 'vuefire'
 import NotFound from '~/404.vue'
 import routes from '~pages'
 
 const router = createRouter({
-	history: createWebHashHistory(),
+	history: createWebHistory(),
 	routes: [
 		...routes,
-		{ path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+		{ path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
 	],
 	scrollBehavior(_to, _from, savedPosition) {
 		if (savedPosition) {
@@ -15,6 +16,20 @@ const router = createRouter({
 			return { top: 0 }
 		}
 	},
+})
+
+router.beforeEach(async(to) => {
+	if (to.meta.requiresAuth) {
+		const currentUser = await getCurrentUser()
+		if (!currentUser) {
+			return {
+				name: 'sign-in',
+				query: {
+					redirect: to.fullPath,
+				},
+			}
+		}
+	}
 })
 
 export {

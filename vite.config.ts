@@ -12,13 +12,16 @@ import { VitePWA } from 'vite-plugin-pwa'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+const FREE_ROUTE_NAMES = [
+	'sign-in',
+	'not-found',
+]
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
 	console.log('🦕 vite.config.ts/defineConfig', command, mode)
 
 	return {
-		base: mode === 'development' ? './' : '/playground/',
-
 		resolve: {
 			alias: {
 				'~/': `${path.resolve(__dirname, 'src')}/`,
@@ -32,7 +35,18 @@ export default defineConfig(({ command, mode }) => {
 			Unocss(),
 
 			// https://github.com/hannoeru/vite-plugin-pages
-			Pages(),
+			Pages({
+				extendRoute(route, _parent) {
+					if (FREE_ROUTE_NAMES.includes(route.name)) {
+						return route
+					}
+
+					return {
+						...route,
+						meta: { requiresAuth: true },
+					}
+				},
+			}),
 
 			// https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
 			VueI18n({

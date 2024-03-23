@@ -1,2 +1,2 @@
-# playground
-> 🦕 minimal vite starter template
+# fibi
+> experimental password manager based on firebase
