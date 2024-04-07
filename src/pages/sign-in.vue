@@ -32,15 +32,17 @@ async function handleSignIn() {
 		<template v-else>
 			<div class="flex flex-col items-center justify-center gap-2">
 				<p>{{ $t('hello', { name: authStore.currentUser.displayName }) }}!</p>
-				<code v-if="authStore.authMetadata">
-					{{ authStore.authMetadata }}
-				</code>
 				<RouterLink
 					v-if="route.query.redirect"
 					:to="redirect"
 				>
 					{{ $t('auth.goto') }} {{ route.query.redirect }}
 				</RouterLink>
+				<Transition>
+					<code v-if="authStore.authMetadata">
+						<pre>{{ authStore.authMetadata }}</pre>
+					</code>
+				</Transition>
 			</div>
 		</template>
 	</section>

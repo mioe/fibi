@@ -10,6 +10,7 @@
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
 
+	--accent-color: hsl(205, 97%, 74%);
 	--accent-bg: hsla(0, 0%, 100%, .1);
 }
 
@@ -40,7 +41,8 @@ figure,
 figcaption,
 blockquote,
 dl,
-dd {
+dd,
+pre {
 	margin: 0;
 }
 
@@ -58,7 +60,7 @@ a {
 	font-weight: 500;
 	text-decoration: inherit;
 	cursor: pointer;
-	color: hsl(205, 97%, 74%);
+	color: var(--accent-color);
 }
 
 button {
