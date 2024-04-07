@@ -9,6 +9,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
+
+	--accent-bg: hsla(0, 0%, 100%, .1);
 }
 
 *,
@@ -84,7 +86,7 @@ img {
 }
 
 code {
-	background-color: hsla(0, 0%, 100%, .1);
+	background-color: var(--accent-bg);
 	padding: .5rem;
 	border-radius: .5rem;
 }

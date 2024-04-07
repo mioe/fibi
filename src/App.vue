@@ -40,7 +40,7 @@ onMounted(async() => {
 					class="mt-auto w-full flex flex-col items-center justify-center"
 				>
 					<button
-						class="inline rounded-full border-none bg-transparent px-4 py-1 underline decoration-dotted op-50"
+						class="inline rounded-full border-none bg-transparent px-4 py-1 underline decoration-dotted op-50 text-white"
 						@click="handleSignOut"
 					>
 						{{ $t('auth.sign-out') }}
